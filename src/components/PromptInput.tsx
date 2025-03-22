@@ -4,9 +4,10 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Play } from 'lucide-react';
+import FileUpload from './FileUpload';
 
 interface PromptInputProps {
-  onSubmit: (prompt: string) => void;
+  onSubmit: (prompt: string, file?: File) => void;
   className?: string;
   placeholder?: string;
 }
@@ -18,29 +19,37 @@ const PromptInput: React.FC<PromptInputProps> = ({
 }) => {
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleSubmit = () => {
-    if (!prompt.trim()) return;
+    if (!prompt.trim() && !selectedFile) return;
     
     setIsLoading(true);
     // Simulate API call
     setTimeout(() => {
-      onSubmit(prompt);
+      onSubmit(prompt, selectedFile || undefined);
       setIsLoading(false);
     }, 1000);
   };
 
+  const handleFileSelected = (file: File) => {
+    setSelectedFile(file);
+  };
+
   return (
     <div className={cn('w-full space-y-4', className)}>
+      <FileUpload onFileSelected={handleFileSelected} />
+      
       <Textarea
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
         placeholder={placeholder}
         className="focus-ring min-h-[100px] text-base resize-none rounded-xl"
       />
+      
       <Button 
         onClick={handleSubmit}
-        disabled={!prompt.trim() || isLoading}
+        disabled={(!prompt.trim() && !selectedFile) || isLoading}
         className="premium-button w-full h-12 text-base font-medium"
       >
         {isLoading ? (

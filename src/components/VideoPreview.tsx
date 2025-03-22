@@ -42,7 +42,7 @@ const VideoPreview: React.FC<VideoPreviewProps> = ({
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
-            <p className="text-muted-foreground text-sm">在上方输入提示词，点击"一键生成"创建视频</p>
+            <p className="text-muted-foreground text-sm">上传图片/视频或输入提示词，点击"一键生成"创建视频</p>
           </div>
         )}
       </div>

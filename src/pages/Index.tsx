@@ -40,11 +40,20 @@ const Index = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
   const [videoUrl, setVideoUrl] = useState<string | undefined>(undefined);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
-  const handlePromptSubmit = (prompt: string) => {
+  const handlePromptSubmit = (prompt: string, file?: File) => {
     setIsGenerating(true);
     setGenerationProgress(0);
     setVideoUrl(undefined);
+    
+    if (file) {
+      setUploadedFile(file);
+      toast({
+        title: `已上传${file.type.startsWith('image/') ? '图片' : '视频'}`,
+        description: `文件名: ${file.name}`,
+      });
+    }
 
     // Simulate video generation with progress
     const interval = setInterval(() => {
@@ -92,13 +101,13 @@ const Index = () => {
           <div className="space-y-2">
             <h1 className="text-2xl font-bold">一键生成自媒体视频</h1>
             <p className="text-muted-foreground">
-              输入您的创意，AI将为您生成完整的自媒体视频内容
+              上传素材或输入创意，AI将为您生成完整的数字人视频
             </p>
           </div>
           
           <PromptInput 
             onSubmit={handlePromptSubmit}
-            placeholder="例如：生成一个展示智能手表功能的宣传视频，风格科技简约，时长15秒"
+            placeholder="例如：家具行业的木椅解说15秒"
           />
           
           <StyleSelector 
