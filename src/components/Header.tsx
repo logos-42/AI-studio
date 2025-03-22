@@ -16,7 +16,7 @@ const Header: React.FC<HeaderProps> = ({
         <h1 className="text-lg font-medium">苏格</h1>
       </div>
       <div>
-        <span className="chip">Beta</span>
+        
       </div>
     </header>;
 };
